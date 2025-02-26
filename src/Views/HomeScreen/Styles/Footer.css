@@ -1,0 +1,129 @@
+.footer-cont {
+  background-color: rgb(12, 74, 110);
+  padding: 30px 0;
+}
+
+.footer-cont-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Added gap and justify-content for even spacing */
+.footer-cont-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.footer-cont-col {
+  flex: 1;
+  min-width: 250px;
+  padding: 15px;
+  color: whitesmoke;
+  text-align: left;
+}
+
+.footer-cont-col-full {
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+}
+
+.footer-cont h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.footer-cont-col p {
+  color: rgb(187, 181, 181);
+}
+
+.footer-cont form input {
+  width: 80%;
+  min-height: 55px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(12, 74, 110);
+  color: whitesmoke;
+  border: 1px solid rgb(104, 98, 98);
+  outline: none;
+  border-radius: 4px;
+}
+
+.footer-cont form button {
+  width: 80%;
+  padding: 10px;
+  background-color: rgb(37, 111, 196);
+  color: whitesmoke;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.footer-cont form button:hover {
+  background-color: rgb(10, 60, 90);
+}
+
+.footer-cont ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.footer-cont ul li {
+  margin-bottom: 4px;
+  color: rgb(187, 181, 181);
+}
+
+.footer-cont ul li a {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-cont ul li a:hover {
+  color: white;
+}
+
+.footer-cont a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer-cont-social a {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.footer-cont-bottom {
+  padding-top: 10px;
+  height: 50px;
+  padding-bottom: 5px !important;
+  color: rgb(187, 181, 181);
+}
+
+@media (max-width: 768px) {
+  .footer-cont-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-cont-col {
+    min-width: auto;
+    width: 100%;
+    padding: 10px;
+  }
+  .footer-cont form input,
+  .footer-cont form button {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .footer-cont ul {
+    padding-left: 20px;
+    text-align: left;
+  }
+}
