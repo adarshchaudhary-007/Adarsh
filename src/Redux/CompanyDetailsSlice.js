@@ -1,11 +1,13 @@
+// src/Redux/CompanyDetailsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from "../Views/HomeScreen/axiosInstance"; // Adjust path if needed
 
 export const fetchCompanyDetails = createAsyncThunk(
   'company/fetchCompanyDetails',
   async (companyParam, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/directorycompany/${companyParam}`);
+      // Use relative URL so that the proxy forwards the request.
+      const response = await axiosInstance.get(`/api/directorycompany/${companyParam}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Error fetching company details');

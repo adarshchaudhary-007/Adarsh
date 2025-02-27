@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "./axiosInstance"; 
 
 const DirectoryContext = createContext();
 
@@ -11,7 +11,7 @@ export function useDirectory() {
 export function DirectoryProvider({ children }) {
   const params = useParams();
   const location = useLocation();
-
+  
   let directoryCode = params.directoryCode;
   if (!directoryCode) {
     const segments = location.pathname.split("/");
@@ -28,7 +28,8 @@ export function DirectoryProvider({ children }) {
   useEffect(() => {
     const fetchDirectoryData = async () => {
       try {
-        const response = await axios.get(`/api/directorydetails/${directoryCode}`);
+        
+        const response = await axiosInstance.get(`/api/directorydetails/${directoryCode}`);
         setDirectoryData({
           directoryDetails: response.data.companydetails,
           directoryCategories: response.data.directorycategories,

@@ -9,6 +9,7 @@ import Welcome from "./Views/HomeScreen/Welcome";
 import Home from "./Views/HomeScreen/Home";
 import About from "./Views/About/About";
 import CompanyDetail from "./Views/HomeScreen/CompanyDetails";
+import CompanyDetailsPage from "./Views/HomeScreen/companyDetailsPage";
 import SignUp from "./Views/SignUp/SignUp.js";
 import Event from "./Views/Events/Events.js";
 import LogIn from "./Views/LogInScreen/LoginPage.js";
@@ -54,6 +55,7 @@ function App() {
               <Route path="/Home" element={<Navigate to="/directory/ebn" replace />} />
               <Route path="/about" element={<About />} />
               <Route path="/company/:company_id" element={<CompanyDetail />} />
+              <Route path="/page/:page_id" element={<CompanyDetailsPage />} />
               <Route path="/signUp" element={<SignUp />} />
               <Route path="/events" element={<Event />} />
               <Route

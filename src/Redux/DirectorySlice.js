@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../Views/HomeScreen/axiosInstance"; 
 
 export const fetchDirectoryData = createAsyncThunk(
   "directory/fetchDirectoryData",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/directorydetails/ebn");
+      const response = await axiosInstance.get(`/api/directorydetails/ebn`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Error fetching data");
@@ -15,7 +15,7 @@ export const fetchDirectoryData = createAsyncThunk(
 
 const directorySlice = createSlice({
   name: "directory",
-  initialState: {                                
+  initialState: {
     directoryDetails: [],
     directoryCategories: [],
     directoryCompanies: [],
@@ -47,7 +47,7 @@ const directorySlice = createSlice({
       })
       .addCase(fetchDirectoryData.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.directoryDetails = action.payload.directorydetails || [];
+        state.directoryDetails = action.payload.companydetails || [];
         state.directoryCategories = action.payload.directorycategories || [];
         state.directoryCompanies = action.payload.directorycompanies || [];
       })

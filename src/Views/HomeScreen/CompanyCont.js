@@ -5,7 +5,13 @@ import { ThumbsUp } from "lucide-react";
 import "./Styles/CompanyCont.css";
 
 function CompanyCont() {
-  const { directoryData, searchTerm, categorySearchTerm, selectedCategories, heroSearchTerm } = useDirectory();
+  const {
+    directoryData,
+    searchTerm,
+    categorySearchTerm,
+    selectedCategories,
+    heroSearchTerm,
+  } = useDirectory();
   const companies = directoryData?.directoryCompanies || [];
 
   const [visibleCompanies, setVisibleCompanies] = useState(4);
@@ -17,7 +23,9 @@ function CompanyCont() {
       searchTerm === "" ||
       company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (company.briefDescription &&
-        company.briefDescription.toLowerCase().includes(searchTerm.toLowerCase()));
+        company.briefDescription
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()));
     const matchesCategory =
       categorySearchTerm === "" ||
       company.services.toLowerCase().includes(categorySearchTerm.toLowerCase());
@@ -26,7 +34,9 @@ function CompanyCont() {
       company.name.toLowerCase().includes(heroSearchTerm.toLowerCase()) ||
       company.services.toLowerCase().includes(heroSearchTerm.toLowerCase()) ||
       (company.briefDescription &&
-        company.briefDescription.toLowerCase().includes(heroSearchTerm.toLowerCase()));
+        company.briefDescription
+          .toLowerCase()
+          .includes(heroSearchTerm.toLowerCase()));
     const serviceList = (company.services || "")
       .split(",")
       .map((s) => s.trim().toLowerCase());
@@ -35,7 +45,12 @@ function CompanyCont() {
       selectedCategories.some((category) =>
         serviceList.includes(category.toLowerCase())
       );
-    return matchesSearch && matchesCategory && matchesSelectedCategories && matchesHeroSearch;
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesSelectedCategories &&
+      matchesHeroSearch
+    );
   });
 
   const sortedCompanies = [...filteredCompanies].sort((a, b) => {
@@ -66,7 +81,8 @@ function CompanyCont() {
       <div className="company-cont-filter-bar">
         <div className="company-cont-filter-bar-content">
           <div className="company-cont-info-text">
-            Showing {visibleFilteredCompanies.length} of {sortedCompanies.length} companies
+            Showing {visibleFilteredCompanies.length} of{" "}
+            {sortedCompanies.length} companies
           </div>
           <div className="company-cont-dropdown dropdown">
             <button
@@ -85,22 +101,34 @@ function CompanyCont() {
             </button>
             <ul className="dropdown-menu">
               <li>
-                <span className="dropdown-item" onClick={() => setSortType("popular")}>
+                <span
+                  className="dropdown-item"
+                  onClick={() => setSortType("popular")}
+                >
                   Popular
                 </span>
               </li>
               <li>
-                <span className="dropdown-item" onClick={() => setSortType("newest")}>
+                <span
+                  className="dropdown-item"
+                  onClick={() => setSortType("newest")}
+                >
                   Newest
                 </span>
               </li>
               <li>
-                <span className="dropdown-item" onClick={() => setSortType("name-asc")}>
+                <span
+                  className="dropdown-item"
+                  onClick={() => setSortType("name-asc")}
+                >
                   Name A-Z
                 </span>
               </li>
               <li>
-                <span className="dropdown-item" onClick={() => setSortType("name-desc")}>
+                <span
+                  className="dropdown-item"
+                  onClick={() => setSortType("name-desc")}
+                >
                   Name Z-A
                 </span>
               </li>
@@ -116,7 +144,12 @@ function CompanyCont() {
             .filter((s) => s !== "");
           return (
             <div className="company-cont-company-card" key={index}>
-              <Link to={`/company/${company.directoryShortCode || company.company_id}`} className="company-cont-link">
+              <Link
+                to={`/company/${
+                  company.directoryShortCode || company.company_id
+                }`}
+                className="company-cont-link"
+              >
                 <div className="company-card-inner">
                   <div className="company-card-main">
                     <div className="company-card-logo">
@@ -146,14 +179,17 @@ function CompanyCont() {
                         </ul>
                         <div
                           className={`company-card-like-button ${
-                            likedCompanies[company.company_id]?.isAnimating ? "scale-125 transition-transform" : ""
+                            likedCompanies[company.company_id]?.isAnimating
+                              ? "scale-125 transition-transform"
+                              : ""
                           }`}
                           onClick={(e) => {
                             e.preventDefault();
                             setLikedCompanies((prev) => ({
                               ...prev,
                               [company.company_id]: {
-                                count: (prev[company.company_id]?.count || 2) + 1,
+                                count:
+                                  (prev[company.company_id]?.count || 2) + 1,
                                 isAnimating: true,
                               },
                             }));
@@ -171,7 +207,9 @@ function CompanyCont() {
                           <ThumbsUp
                             size={16}
                             className={`inline ${
-                              likedCompanies[company.company_id]?.count ? "fill-yellow-500 text-yellow-500" : "text-yellow-500"
+                              likedCompanies[company.company_id]?.count
+                                ? "fill-yellow-500 text-yellow-500"
+                                : "text-yellow-500"
                             }`}
                           />
                           <span className="company-cont-like-count">
@@ -181,7 +219,8 @@ function CompanyCont() {
                       </div>
                     </div>
                   </div>
-                  {new Date(company.created_at) >= new Date(new Date().setDate(new Date().getDate() - 7)) && (
+                  {new Date(company.created_at) >=
+                    new Date(new Date().setDate(new Date().getDate() - 7)) && (
                     <div className="company-cont-new-badge">NEW</div>
                   )}
                 </div>
