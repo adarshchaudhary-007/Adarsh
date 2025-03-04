@@ -8,7 +8,7 @@ import "./Styles/Footer.css";
 function Footer() {
   const { directoryDetails } = useSelector((state) => state.directory);
   const companyEmail =
-    directoryDetails.length > 0 ? directoryDetails[0].email : "contact@example.com";
+    directoryDetails.length > 0 ? directoryDetails[0].email : "contact@ebn.com";
 
   return (
     <footer className="footer-cont">

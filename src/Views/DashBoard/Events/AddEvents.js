@@ -8,7 +8,7 @@ import "./AddEvents.css";
 
 const AddEvents = () => {
   const navigate = useNavigate();
-  const tenant_id = 2; // update this as needed
+  const tenant_id = 1;
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -24,7 +24,6 @@ const AddEvents = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Save file name
       setForm((prev) => ({ ...prev, imageName: file.name }));
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -40,10 +39,9 @@ const AddEvents = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare payload per API requirements.
     const payload = {
-      tenant_id: tenant_id,
-      event_id: "", // leave blank for Add
+      tenant_id,
+      event_id: "", 
       title: form.title,
       description: form.description,
       imageName: form.imageName,
@@ -51,8 +49,9 @@ const AddEvents = () => {
     };
 
     try {
-      // Using the relative path to work with your proxy configuration.
-      const response = await axios.post("/api/addeditevent", payload);
+      const response = await axios.post("/api/addeditevent", payload, {
+        headers: { "Content-Type": "application/json" },
+      });
       if (
         response.data.details &&
         response.data.details[0] &&
@@ -65,15 +64,12 @@ const AddEvents = () => {
           imageName: "",
           imageNameContents: ""
         });
-        navigate("/DashEvents");
+        navigate("/Dashevents");
       } else {
         alert("Failed to add event. Please try again.");
       }
     } catch (error) {
-      console.error(
-        "Error adding event:",
-        error.response ? error.response.data : error
-      );
+      console.error("Error adding event:", error.response ? error.response.data : error);
       alert("Error adding event. Please try again.");
     }
   };
@@ -134,7 +130,7 @@ const AddEvents = () => {
               <button
                 type="button"
                 className="ae-back-btn"
-                onClick={() => navigate("/DashEvents")}
+                onClick={() => navigate("/Dashevents")}
               >
                 Back
               </button>

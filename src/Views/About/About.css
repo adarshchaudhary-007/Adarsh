@@ -9,18 +9,19 @@
     flex: 1;
     padding: 20px;
     margin-top: 20px;
+    
   }
   
   .content-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 830px;
     margin: 0 auto;
     margin-bottom: 25px;
   }
   
   .back-link-wrapper {
-    margin-top: 40px;
-    margin-bottom: 20px;
+    margin-top: 70px;
+    margin-bottom: 25px;
   }
   
   .About-back-link {
@@ -29,7 +30,8 @@
     gap: 8px;
     color: #494646;
     text-decoration: none;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 200 !important;
   }
   
   .back-link:hover {
@@ -48,16 +50,17 @@
   
   .content h1 {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #1e293b;
     margin-bottom: 30px;
     text-align: left;
+    margin-top: -10px !important;
   }
   
   .content h3 {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 20px;
-    margin: 25px 0 15px;
+    margin: 10px 0 15px !important;
     color: rgb(12, 74, 110);
   }
   

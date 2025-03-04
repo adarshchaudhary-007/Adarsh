@@ -8,7 +8,6 @@ const SignUp = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   return (
     <div>
       <StickyNav />
@@ -35,7 +34,7 @@ const SignUp = () => {
               </Link>
             </div>
           </div>
-          <div className="row">
+          <div className="row" style={{marginBottom:'25px'}}>
             <div className="col-md-12">
               <div className="coverbox boxwhitein">
                 <div className="headbggrntop">
@@ -43,12 +42,11 @@ const SignUp = () => {
                     <h4 className="text-center form-title">
                       Submit Directory or Framework
                     </h4>
-                    <p className="text-center margtptty fntclrp form-subtitle">
+                    <p className="text-center form-subtitle">
                       Free submission! Review in approval within 24 hours.
                     </p>
-                    <p className="text-center fntclrp form-subtitle">
-                      Gain visibility, attract new users, and receive valuable
-                      feedback by showcasing your Community.
+                    <p className="text-center form-subtitle">
+                      Gain visibility, attract new users, and receive valuable feedback by showcasing your Community.
                     </p>
                   </div>
                 </div>
@@ -123,8 +121,7 @@ const SignUp = () => {
                       </div>
                       <div className="col-md-12">
                         <label className="custom-label">
-                          Company Description
-                          <span className="text-red-500">*</span>
+                          Company Description<span className="text-red-500">*</span>
                         </label>
                         <textarea></textarea>
                       </div>

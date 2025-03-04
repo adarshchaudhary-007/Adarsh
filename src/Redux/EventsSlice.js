@@ -1,35 +1,38 @@
-// src/Redux/EventsSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const initialState = {
+  data: [],
+  loading: false,
+  error: null,
+};
 
 export const fetchEvents = createAsyncThunk(
-  'events/fetchEvents',
+  "events/fetchEvents",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/getevent/1");
+      const response = await axios.get("/api/getevent/1", {
+        params: { tenant_id: 1 },
+      });
       const data = response.data;
+      let eventsArray = [];
       if (data.details && Array.isArray(data.details)) {
-        return data.details;
+        eventsArray = data.details;
       } else if (Array.isArray(data)) {
-        return data;
+        eventsArray = data;
       } else if (data && Array.isArray(data.events)) {
-        return data.events;
-      } else {
-        return [];
+        eventsArray = data.events;
       }
+      return eventsArray;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
-const eventsSlice = createSlice({
-  name: 'events',
-  initialState: {
-    data: [],
-    loading: false,
-    error: null,
-  },
+const EventsSlice = createSlice({
+  name: "events",
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -43,9 +46,9 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Failed to fetch events';
+        state.error = action.payload || "Failed to fetch events";
       });
   },
 });
 
-export default eventsSlice.reducer;
+export default EventsSlice.reducer;

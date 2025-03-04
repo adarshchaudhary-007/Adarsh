@@ -11,7 +11,7 @@ function StickyNav() {
           href="/"
         >
           <img className="sticky-nav-logo" src={icon} alt="logo" />
-          <span>Community Directory</span>
+          <span>Aktive Directory</span>
         </a>
       </div>
     </nav>

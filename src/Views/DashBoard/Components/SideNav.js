@@ -14,7 +14,6 @@ const SidebarContent = () => {
     return routes.some((route) => currentPath.startsWith(route.toLowerCase()));
   };
 
-  
   const IconWrapper = ({ children, isActive }) => (
     <div
       style={{
@@ -128,7 +127,15 @@ const SidebarContent = () => {
           {/* Events */}
           <MenuItem
             icon={
-              <IconWrapper isActive={isActiveForRoutes(["/dashevents", "/addevents"])}>
+              <IconWrapper
+                isActive={isActiveForRoutes([
+                  "/dashevents",
+                  "/Addevents",
+                  "/view-event",
+                  "/edit-event",
+                  "/delete-event",
+                ])}
+              >
                 <Calendar size={20} color="white" />
               </IconWrapper>
             }

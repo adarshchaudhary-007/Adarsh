@@ -1,7 +1,7 @@
 .main-cont-container {
   display: flex;
-  gap: 5px;
-  margin: 3rem 0;
+  gap: -25px !important; 
+  margin: 1rem 0;
 }
 
 .main-cont-category {

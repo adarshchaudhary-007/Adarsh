@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { useDirectory } from "./MainDirectory";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { ThumbsUp } from "lucide-react";
 import "./Styles/CompanyCont.css";
 
 function CompanyCont() {
-  const {
-    directoryData,
-    searchTerm,
-    categorySearchTerm,
-    selectedCategories,
-    heroSearchTerm,
-  } = useDirectory();
-  const companies = directoryData?.directoryCompanies || [];
+  const { directoryCode } = useParams();
+  const companies = useSelector((state) => state.directory.directoryCompanies) || [];
+  const searchTerm = useSelector((state) => state.directory.searchTerm);
+  const categorySearchTerm = useSelector((state) => state.directory.categorySearchTerm);
+  const selectedCategories = useSelector((state) => state.directory.selectedCategories);
+  const heroSearchTerm = useSelector((state) => state.directory.heroSearchTerm);
 
-  const [visibleCompanies, setVisibleCompanies] = useState(4);
+  const [visibleCompanies, setVisibleCompanies] = useState(6);
   const [likedCompanies, setLikedCompanies] = useState({});
   const [sortType, setSortType] = useState("name-asc");
 
@@ -23,9 +21,7 @@ function CompanyCont() {
       searchTerm === "" ||
       company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (company.briefDescription &&
-        company.briefDescription
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()));
+        company.briefDescription.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesCategory =
       categorySearchTerm === "" ||
       company.services.toLowerCase().includes(categorySearchTerm.toLowerCase());
@@ -34,9 +30,7 @@ function CompanyCont() {
       company.name.toLowerCase().includes(heroSearchTerm.toLowerCase()) ||
       company.services.toLowerCase().includes(heroSearchTerm.toLowerCase()) ||
       (company.briefDescription &&
-        company.briefDescription
-          .toLowerCase()
-          .includes(heroSearchTerm.toLowerCase()));
+        company.briefDescription.toLowerCase().includes(heroSearchTerm.toLowerCase()));
     const serviceList = (company.services || "")
       .split(",")
       .map((s) => s.trim().toLowerCase());
@@ -71,7 +65,7 @@ function CompanyCont() {
   });
 
   const handleLoadMore = () => {
-    setVisibleCompanies((prev) => Math.min(prev + 4, sortedCompanies.length));
+    setVisibleCompanies((prev) => Math.min(prev + 6, sortedCompanies.length));
   };
 
   const visibleFilteredCompanies = sortedCompanies.slice(0, visibleCompanies);
@@ -81,8 +75,7 @@ function CompanyCont() {
       <div className="company-cont-filter-bar">
         <div className="company-cont-filter-bar-content">
           <div className="company-cont-info-text">
-            Showing {visibleFilteredCompanies.length} of{" "}
-            {sortedCompanies.length} companies
+            Showing {visibleFilteredCompanies.length} of {sortedCompanies.length} companies
           </div>
           <div className="company-cont-dropdown dropdown">
             <button
@@ -101,34 +94,22 @@ function CompanyCont() {
             </button>
             <ul className="dropdown-menu">
               <li>
-                <span
-                  className="dropdown-item"
-                  onClick={() => setSortType("popular")}
-                >
+                <span className="dropdown-item" onClick={() => setSortType("popular")}>
                   Popular
                 </span>
               </li>
               <li>
-                <span
-                  className="dropdown-item"
-                  onClick={() => setSortType("newest")}
-                >
+                <span className="dropdown-item" onClick={() => setSortType("newest")}>
                   Newest
                 </span>
               </li>
               <li>
-                <span
-                  className="dropdown-item"
-                  onClick={() => setSortType("name-asc")}
-                >
+                <span className="dropdown-item" onClick={() => setSortType("name-asc")}>
                   Name A-Z
                 </span>
               </li>
               <li>
-                <span
-                  className="dropdown-item"
-                  onClick={() => setSortType("name-desc")}
-                >
+                <span className="dropdown-item" onClick={() => setSortType("name-desc")}>
                   Name Z-A
                 </span>
               </li>
@@ -145,9 +126,8 @@ function CompanyCont() {
           return (
             <div className="company-cont-company-card" key={index}>
               <Link
-                to={`/company/${
-                  company.directoryShortCode || company.company_id
-                }`}
+                to={`/company/${company.directoryShortCode || company.company_id}`}
+                state={{ directoryCode }}  // Pass current directory code here
                 className="company-cont-link"
               >
                 <div className="company-card-inner">

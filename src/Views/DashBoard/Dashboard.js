@@ -5,6 +5,7 @@ import DashboardSidebar from "./Components/SideNav";
 import DashboardNav from "./Components/UpperNav";
 import { fetchCompanies } from "../../Redux/CompaniesSlice";
 import { fetchCategories } from "../../Redux/CategoriesSlice";
+import { fetchEvents } from "../../Redux/EventsSlice";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -12,6 +13,9 @@ const Dashboard = () => {
 
   const { data: companies } = useSelector((state) => state.companies);
   const { data: categories } = useSelector((state) => state.categories);
+  const { data: events, loading: eventsLoading, error: eventsError } = useSelector(
+    (state) => state.events
+  );
 
   useEffect(() => {
     if (companies.length === 0) {
@@ -24,6 +28,12 @@ const Dashboard = () => {
       dispatch(fetchCategories());
     }
   }, [dispatch, categories.length]);
+
+  useEffect(() => {
+    if (!events || events.length === 0) {
+      dispatch(fetchEvents());
+    }
+  }, [dispatch, events]);
 
   return (
     <div className="app">
@@ -92,57 +102,44 @@ const Dashboard = () => {
               </div>
               <div className="card-body">
                 <div className="activity-timeline">
-                  {/* Event 1 */}
-                  <div className="d-flex items-start">
-                    <div className="activity-line"></div>
-                    <div className="activity-dot-secondary"></div>
-                    <div className="flex-grow">
-                      <p className="mt-0 todo-font">
-                        <span className="text-blue-600">20-04-2022</span> Today
-                      </p>
-                      <span className="font-bold">Agriculture</span>
-                      <p className="event-content">
-                        Seminar on sustainable agriculture to discuss high yield
-                        farming methods
-                      </p>
-                    </div>
-                  </div>
-                  {/* Event 2 */}
-                  <div className="d-flex items-start">
-                    <div className="activity-dot-primary"></div>
-                    <div className="flex-grow">
-                      <p className="mt-0 todo-font">
-                        <span className="font-primary">20-04-2022</span> Today
-                        <span className="badge badge-primary ms-2">New</span>
-                      </p>
-                      <span className="font-bold">Trading</span>
-                      <p className="event-content">
-                        Best Trading Practices where experts interact with each
-                        other and provide insight into this topic
-                      </p>
-                      <ul className="img-wrapper space-x-2">
-                        <li>
-                          <img className="w-16 h-16" src="" alt="" />
-                        </li>
-                        <li>
-                          <img className="w-16 h-16" src="" alt="" />
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/* Event 3 */}
-                  <div className="d-flex items-start">
-                    <div className="activity-dot-secondary"></div>
-                    <div className="flex-grow">
-                      <p className="mt-0 todo-font">
-                        <span className="font-primary">20-04-2022</span> Today
-                      </p>
-                      <span className="font-bold">Entertainment</span>
-                      <p className="event-content">
-                        Release of coffee table book
-                      </p>
-                    </div>
-                  </div>
+                  {eventsLoading ? (
+                    <p>Loading events...</p>
+                  ) : eventsError ? (
+                    <p>Error loading events: {eventsError}</p>
+                  ) : events && events.length > 0 ? (
+                    events.map((event, index) => (
+                      <div key={index} className="d-flex items-start">
+                        {index === 0 && <div className="activity-line"></div>}
+                        <div
+                          className={
+                            index % 2 === 0
+                              ? "activity-dot-secondary"
+                              : "activity-dot-primary"
+                          }
+                        ></div>
+                        <div className="flex-grow">
+                          {event.created_at && (
+                            <p className="mt-0 todo-font">
+                              <span className="text-blue-600">
+                                {event.created_at}
+                              </span>
+                              {event.created_at === "Today" ? " Today" : ""}
+                            </p>
+                          )}
+                          {event.title && (
+                            <span className="font-bold">{event.title}</span>
+                          )}
+                          {event.descriptions && (
+                            <p className="event-content">
+                              {event.descriptions}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No events available</p>
+                  )}
                 </div>
               </div>
             </div>

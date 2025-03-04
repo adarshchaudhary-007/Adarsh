@@ -1,41 +1,33 @@
 import React from "react";
-import { useDirectory } from "./MainDirectory";
+import { useSelector, useDispatch } from "react-redux";
+import { setCategorySearchTerm, setSelectedCategories } from "../../Redux/DirectorySlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Styles/CategoryCont.css";
 
 function CategoryCont() {
-  const {
-    directoryData,
-    categorySearchTerm,
-    setCategorySearchTerm,
-    selectedCategories,
-    setSelectedCategories,
-  } = useDirectory();
+  const dispatch = useDispatch();
+  const directoryCategories = useSelector((state) => state.directory.directoryCategories);
+  const directoryCompanies = useSelector((state) => state.directory.directoryCompanies);
+  const categorySearchTerm = useSelector((state) => state.directory.categorySearchTerm);
+  const selectedCategories = useSelector((state) => state.directory.selectedCategories);
 
-  // Ensure categories is always an array
-  const categories = (directoryData && directoryData.directoryCategories) || [];
-
-  const filteredCategories = categories.filter((category) =>
+  const filteredCategories = directoryCategories.filter((category) =>
     category.catName.toLowerCase().includes(categorySearchTerm.toLowerCase())
   );
 
   const getCategoryCount = (categoryName) => {
-    const companies = (directoryData && directoryData.directoryCompanies) || [];
-    const count = companies.filter((item) =>
+    return directoryCompanies.filter((item) =>
       item.services.includes(categoryName)
     ).length;
-    return count;
   };
 
   const handleCheckboxChange = (categoryName) => {
-    setSelectedCategories((prev) => {
-      if (prev.includes(categoryName)) {
-        return prev.filter((cat) => cat !== categoryName);
-      } else {
-        return [...prev, categoryName];
-      }
-    });
+    if (selectedCategories.includes(categoryName)) {
+      dispatch(setSelectedCategories(selectedCategories.filter((cat) => cat !== categoryName)));
+    } else {
+      dispatch(setSelectedCategories([...selectedCategories, categoryName]));
+    }
   };
 
   return (
@@ -49,7 +41,7 @@ function CategoryCont() {
             className="category-cont-snglbox"
             placeholder="Search categories..."
             value={categorySearchTerm}
-            onChange={(e) => setCategorySearchTerm(e.target.value)}
+            onChange={(e) => dispatch(setCategorySearchTerm(e.target.value))}
           />
         </div>
         <div className="category-cont-bxdscrl">

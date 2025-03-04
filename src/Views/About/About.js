@@ -12,7 +12,7 @@ function About() {
       <div className="page-content">
         <div className="content-container">
           <div className="back-link-wrapper">
-            <Link to="/Home" className="back-link">
+            <Link to="/Home" className="About-back-link">
               <ArrowLeft size={20} />
               <span>Back to Directory</span>
             </Link>

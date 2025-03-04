@@ -1,10 +1,12 @@
+/* Base Styles */
 .hero-cont-container {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  height: 240px;
+  margin: 0 auto 60px;
   padding: 20px;
-  text-align: center;
   font-family: "Nunito Sans", sans-serif;
+  box-sizing: border-box;
 }
 
 .hero-cont-row {
@@ -12,49 +14,211 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .hero-cont-column {
   width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.hero-cont-column h1 {
-  font-size: 45px;
-  font-weight: 800;
-  margin: 20px auto 7px;
-  padding-top: 70px;
+.hero-title {
+  font-size: 48px;
+  font-weight: 900;
+  margin-left: -140px !important;
+  padding-top: 160px !important;
   color: var(--bs-body-color);
+  word-spacing: 4px;
+  white-space: nowrap;
+  font-family: "Nunito Sans", sans-serif;
+  text-align: center;
+  width: 100%;
+  line-height: 1.2;
+}
+
+.hero-title.long-header {
+  margin-left: -80px;
+  letter-spacing: -1.5px;
+  word-spacing: -2px;
+}
+
+.center-header {
+  text-align: center !important;
+  margin-left: 0 !important;
 }
 
 .hero-cont-column h2 {
-  font-size: 19px;
-  font-weight: 400;
-  margin: 10px auto 30px;
+  font-size: 17px;
+  font-weight: 450;
+  margin: 0 auto 10px;
+  text-align: center;
+  color: #302e2e;
+  max-width: 800px;
 }
 
 .hero-cont-serchdsgn {
   position: relative;
   width: 100%;
   max-width: 500px;
-  margin: 0 auto;
-  margin-top: 20px;
+  margin: 15px auto 0;
 }
 
 .hero-cont-input {
   width: 100%;
-  padding: 12px 20px;
+  height: 50px !important;
+  padding-left: 20px !important;
+  margin-top: 20px;
   border: 2px solid rgb(209, 213, 219);
-  border-radius: 50px !important;
+  border-radius: 30px !important;
   font-size: 16px;
-  text-align: left;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  outline: none;
 }
 
-.hero-cont-btn {
+.hero-cont-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.icon-wrapper {
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
-  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  transition: color 0.3s ease;
+  padding-bottom: 2px;
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+  padding-top: 7px;
+}
+
+/* Responsive Design */
+
+/* For screens up to 1150px */
+@media (max-width: 1150px) {
+  .hero-title {
+    white-space: normal;
+    margin-left: 0;
+  }
+}
+
+/* For screens up to 1024px (iPad Pro and similar) */
+@media (max-width: 1024px) {
+  .hero-cont-container {
+    height: auto;
+    margin-bottom: 40px;
+    padding: 20px 15px;
+  }
+  .hero-title {
+    font-size: 44px;
+    padding-top: 70px;
+    margin-left: 0 !important;
+  }
+}
+
+/* For screens up to 768px */
+@media (max-width: 768px) {
+  .hero-cont-container {
+    height: auto;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+  }
+  .hero-title {
+    white-space: normal;
+    font-size: 42px;
+    line-height: 1.2;
+    padding-top: 50px;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    letter-spacing: -0.5px;
+    word-spacing: 3px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .hero-title.long-header {
+    margin-left: -20px;
+    width: 100%;
+    margin: 20px auto 7px auto;
+  }
+  .hero-cont-column h2 {
+    font-size: 16px;
+    margin: 0 auto 15px;
+  }
+  .hero-cont-serchdsgn {
+    margin-top: 15px;
+  }
+  .hero-cont-input {
+    padding: 12px 45px 12px 20px;
+  }
+  .icon-wrapper {
+    right: 15px;
+  }
+}
+
+/* For screens up to 480px (mobile devices) */
+@media (max-width: 480px) {
+  .hero-cont-container {
+    height: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  .hero-title {
+    font-size: 28px;
+    padding-top: 20px;
+    word-spacing: 2px;
+  }
+  .hero-cont-column h2 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .hero-cont-serchdsgn {
+    margin-top: 10px;
+  }
+  .hero-cont-input {
+    padding: 8px 35px 8px 10px;
+    font-size: 14px;
+  }
+  .icon-wrapper {
+    right: 10px;
+    width: 18px;
+    height: 18px;
+  }
+  .search-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Animation for Search Icon */
+@keyframes iconPulse {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.1);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.hero-cont-input:focus ~ .icon-wrapper {
+  animation: iconPulse 0.3s ease;
 }

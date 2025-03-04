@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCompanyDetails } from '../../Redux/CompanyDetailsSlice';
-import StickyNav from './StickyNav';
-import Footer from './Footer';
-import { ArrowLeft } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCompanyDetails } from "../../Redux/CompanyDetailsSlice";
+import StickyNav from "./StickyNav";
+import Footer from "./Footer";
+import { ArrowLeft } from "lucide-react";
+import { FaTimes } from "react-icons/fa";
 import "./Styles/CompanyDetails.css";
 
 function CompanyDetails() {
   const { company_id } = useParams();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const { companyDetails, status, error } = useSelector(state => state.company);
+  const { companyDetails, status, error } = useSelector(
+    (state) => state.company
+  );
   const [chatOpen, setChatOpen] = useState(false);
+
+  const backDirectory =
+    location.state && location.state.directoryCode
+      ? location.state.directoryCode
+      : "ebn";
 
   useEffect(() => {
     if (!company_id) {
@@ -19,27 +28,28 @@ function CompanyDetails() {
       return;
     }
     const currentId = String(company_id);
-    const storedId = companyDetails && companyDetails.details
-      ? String(companyDetails.details.company_id)
-      : null;
-    if (!companyDetails || status === 'idle' || storedId !== currentId) {
+    const storedId =
+      companyDetails && companyDetails.details
+        ? String(companyDetails.details.company_id)
+        : null;
+    if (!companyDetails || status === "idle" || storedId !== currentId) {
       dispatch(fetchCompanyDetails(company_id));
     }
   }, [company_id, dispatch, status, companyDetails]);
 
   const errorMessage =
-    typeof error === 'object' && error !== null
+    typeof error === "object" && error !== null
       ? error.message || JSON.stringify(error)
       : error;
 
-  if (status === 'loading') return <div>Loading...</div>;
-  if (status === 'failed' || error) {
+  if (status === "loading") return <div>Loading...</div>;
+  if (status === "failed" || error) {
     return (
       <div className="cd-main-container">
         <StickyNav />
         <div className="cd-content-container">
           <h2>{errorMessage || "404 Not Found"}</h2>
-          <Link to="/directory/ebn" className="cd-back-link">
+          <Link to={`/directory/${backDirectory}`} className="cd-back-link">
             <ArrowLeft size={20} />
             <span>Back to Directory</span>
           </Link>
@@ -54,7 +64,7 @@ function CompanyDetails() {
         <StickyNav />
         <div className="cd-content-container">
           <h2>No company details available.</h2>
-          <Link to="/directory/ebn" className="cd-back-link">
+          <Link to={`/directory/${backDirectory}`} className="cd-back-link">
             <ArrowLeft size={20} />
             <span>Back to Directory</span>
           </Link>
@@ -87,7 +97,7 @@ function CompanyDetails() {
       <div className="cd-content-container">
         <div className="cd-row" style={{ marginBottom: "8px" }}>
           <div className="cd-col">
-            <Link to="/directory/ebn" className="cd-back-link">
+            <Link to={`/directory/${backDirectory}`} className="cd-back-link">
               <ArrowLeft size={20} />
               <span>Back to Directory</span>
             </Link>
@@ -118,13 +128,15 @@ function CompanyDetails() {
                   <p>{limitedBriefDescription}</p>
                   <div className="cd-contact-info-row">
                     <span className="cd-contact-info-item">
-                      <i className="fa fa-phone"></i> {company.phone || "No phone"}
+                      <i className="fa fa-phone"></i>{" "}
+                      {company.phone || "No phone"}
                     </span>
                     <a
                       href={company.email ? `mailto:${company.email}` : "#"}
                       className="cd-contact-info-item"
                     >
-                      <i className="fa fa-envelope"></i> {company.email || "No email"}
+                      <i className="fa fa-envelope"></i>{" "}
+                      {company.email || "No email"}
                     </a>
                     <a
                       href={
@@ -138,7 +150,8 @@ function CompanyDetails() {
                       rel="noopener noreferrer"
                       className="cd-contact-info-item"
                     >
-                      <i className="fa fa-globe"></i> {company.website || "No website"}
+                      <i className="fa fa-globe"></i>{" "}
+                      {company.website || "No website"}
                     </a>
                   </div>
                 </div>
@@ -152,29 +165,44 @@ function CompanyDetails() {
                       "No overview available"}
                   </p>
                 </div>
-                <div className="cd-lstbxcnt">
-                  <h5>We provide products and services in following categories:</h5>
-                  <ul className="cd-catlist">
-                    {pages &&
-                      pages.map((page) => (
+                {pages && pages.length > 0 && (
+                  <div className="cd-lstbxcnt">
+                    <h5>
+                      We provide products and services in following categories:
+                    </h5>
+                    <ul className="cd-catlist">
+                      {pages.map((page) => (
                         <li key={page.page_id}>
                           <i className="fa fa-check"></i>
                           <Link
                             to={`/page/${page.page_id}`}
-                            state={{ company_id: company.company_id }}
+                            state={{
+                              company_id: company.company_id,
+                              directoryCode: backDirectory,
+                            }}
                           >
                             {page.pageName}
                           </Link>
                           <i className="cd-arrow-right">&rarr;</i>
                         </li>
                       ))}
-                  </ul>
-                </div>
+                    </ul>
+                  </div>
+                )}
                 <div className="cd-lstbxcnt">
                   <h4>Contact</h4>
-                  <p>Let our Team handle all the Tech, So you can Execute the Rest</p>
-                  <p><strong>Name of the Person:</strong> {company.contactPerson || "Not provided"}</p>
-                  <p><strong>Designation:</strong> {company.designation || "Director"}</p>
+                  <p>
+                    Let our Team handle all the Tech, So you can Execute the
+                    Rest
+                  </p>
+                  <p>
+                    <strong>Name of Person:</strong>{" "}
+                    {company.contactPerson || "Not provided"}
+                  </p>
+                  <p>
+                    <strong>Designation:</strong>{" "}
+                    {company.designation || "Director"}
+                  </p>
                   <div className="cd-toprwto">
                     <Link
                       to={
@@ -190,7 +218,10 @@ function CompanyDetails() {
                     >
                       <i className="fa fa-globe"></i> Website
                     </Link>
-                    <Link to={`mailto:${company.email}`} className="cd-btnemail">
+                    <Link
+                      to={`mailto:${company.email}`}
+                      className="cd-btnemail"
+                    >
                       <i className="fa fa-envelope"></i> Email
                     </Link>
                     <Link to={`tel:${company.phone}`} className="cd-btnemail">
@@ -207,15 +238,48 @@ function CompanyDetails() {
                     <Link to="#" className="cd-btnshare">
                       <i className="fa fa-share"></i> Share
                     </Link>
-                    <button className="cd-btnchat" onClick={() => setChatOpen(!chatOpen)}>
+                    <button
+                      className="cd-btnchat"
+                      onClick={() => setChatOpen(!chatOpen)}
+                    >
                       <i className="fa fa-comment"></i> Chat
                     </button>
                   </div>
                   {chatOpen && (
-                    <div className="cd-chat-box">
-                      <h5>Chat with us</h5>
-                      <textarea placeholder="Type your message..." rows="3" />
-                      <button>Send</button>
+                    <div className="wrapper">
+                      <div className="header">
+                        <h6>
+                          Let's Chat - Online
+                          <FaTimes
+                            className="close-icon"
+                            onClick={() => setChatOpen(false)}
+                          />
+                        </h6>
+                      </div>
+                      <div className="text-left">
+                        <span className="lightchat">
+                          Please fill out the form to start chat!
+                        </span>
+                      </div>
+                      <div className="chat-form">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Name"
+                        />
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Email"
+                        />
+                        <textarea
+                          className="form-control"
+                          placeholder="Your Text Message"
+                        ></textarea>
+                        <button className="btn btn-success btn-block">
+                          Submit
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>

@@ -34,6 +34,9 @@ import DeleteCategory from "./Views/DashBoard/Categories/Icons/DeleteCategory.js
 // Dashboard - Events
 import DashEvents from "./Views/DashBoard/Events/DashEvents.js";
 import AddEvents from "./Views/DashBoard/Events/AddEvents.js";
+import ViewEvent from "./Views/DashBoard/Events/Icons/ViewEvent.js";
+import EditEvent from "./Views/DashBoard/Events/Icons/EditEvent.js";
+import DeleteEvent from "./Views/DashBoard/Events/Icons/DeleteEvent.js";
 
 // Route wrappers
 import ProtectedRoute from "./Views/DashBoard/ProtectedRoute/protectedRoute.js";
@@ -157,8 +160,10 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
+              {/* Events Routes */}
               <Route
-                path="/Dashevents"
+                path="/DashEvents"
                 element={
                   <ProtectedRoute>
                     <DashEvents />
@@ -170,6 +175,30 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AddEvents />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/view-event/:id"
+                element={
+                  <ProtectedRoute>
+                    <ViewEvent />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/edit-event/:id"
+                element={
+                  <ProtectedRoute>
+                    <EditEvent />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/delete-event/:id"
+                element={
+                  <ProtectedRoute>
+                    <DeleteEvent />
                   </ProtectedRoute>
                 }
               />

@@ -24,7 +24,7 @@ const LoginPage = () => {
     }
   }, [user, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };

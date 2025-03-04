@@ -3,9 +3,9 @@ import axiosInstance from "../Views/HomeScreen/axiosInstance";
 
 export const fetchDirectoryData = createAsyncThunk(
   "directory/fetchDirectoryData",
-  async (_, { rejectWithValue }) => {
+  async (directoryCode, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/api/directorydetails/ebn`);
+      const response = await axiosInstance.get(`/api/directorydetails/${directoryCode}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Error fetching data");

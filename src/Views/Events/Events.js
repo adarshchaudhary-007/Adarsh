@@ -46,7 +46,11 @@ const Events = () => {
 
   const renderEvents = (events) =>
     events.map((event, index) => (
-      <EventItem key={index} title={event.title} description={event.description} />
+      <EventItem
+        key={index}
+        title={event.title}
+        description={event.description}
+      />
     ));
 
   return (
@@ -106,25 +110,44 @@ const Events = () => {
       `}</style>
       <div className="main-events-container" style={{ paddingTop: "78px" }}>
         <StickyNav />
-        <div className="container" style={{ width: "100%", maxWidth: "850px", paddingBottom: "10px" }}>
+        <div
+          className="container"
+          style={{ width: "100%", maxWidth: "850px", paddingBottom: "10px" }}
+        >
           <div className="row">
-            <div className="col-md-10 rodhdr" style={{ paddingRight: "0", marginBottom: "-10px", marginTop: "20px" }}>
-              <h1 style={{ margin: "0", fontWeight: "630", fontSize: "30px" }}>Events</h1>
+            <div
+              className="col-md-10 rodhdr"
+              style={{
+                paddingRight: "0",
+                marginBottom: "-10px",
+                marginTop: "20px",
+              }}
+            >
+              <h1 style={{ margin: "0", fontWeight: "630", fontSize: "30px" }}>
+                Events
+              </h1>
             </div>
           </div>
           <div className="row">
             <div className="col-md-12">
-              <div className="coverbox tabliting" style={{ marginBottom: "10px" }}>
+              <div
+                className="coverbox tabliting"
+                style={{ marginBottom: "10px", marginTop:"30px" }}
+              >
                 <nav>
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
                     <button
-                      className={`nav-link ${activeTab === "upcoming" ? "active" : ""}`}
+                      className={`nav-link ${
+                        activeTab === "upcoming" ? "active" : ""
+                      }`}
                       onClick={() => setActiveTab("upcoming")}
                     >
                       Upcoming Events
                     </button>
                     <button
-                      className={`nav-link ${activeTab === "past" ? "active" : ""}`}
+                      className={`nav-link ${
+                        activeTab === "past" ? "active" : ""
+                      }`}
                       onClick={() => setActiveTab("past")}
                     >
                       Past Events
